@@ -8,7 +8,7 @@ namespace GameOfLife
 {
     class Map
     {
-        // Creates a two deminsional boolean array of Cell Objects
+        // Returns a two deminsional array of Cell Objects
         public static Cell[,] CreateMap(int MapWidth = 100, int MapHeight = 20)
         {
             try
@@ -32,21 +32,8 @@ namespace GameOfLife
             }
         }
 
-        // Prints the map to the console. 
-        public static void PrintMap(Cell[,] Map)
-        {
-
-            for (int i = 0; i < Map.GetLength(0); i++)
-            {
-                for (int j = 0; j < Map.GetLength(1); j++)
-                {
-                    Map[i, j].PrintAlive();
-                }
-                Console.WriteLine();
-            }
-        }
-
-        // Give this a map and it will return a correctly updated map. 
+        // Give this a map and it will return a correctly updated map AND prints the map. 
+        // The printing was added here to save computational energy. 
         public static Cell[,] UpdateMap(Cell[,] Map)
         {
             Cell[,] NewMap = Map;
@@ -56,7 +43,11 @@ namespace GameOfLife
                 for(int j = 0; j < Map.GetLength(1); j++)
                 {
                     // Creates a border of asterisks in the else part of the statement. 
-                    if (i != 0 || j != 0 || i != Map.GetLength(0) || j != Map.GetLength(1))
+                    if (i == 0 || j == 0 || i == Map.GetLength(0)-1 || j == Map.GetLength(1)-1)
+                    {
+                        Console.Write('*');
+                    }
+                    else
                     {
 
                         int neighbors = 0;
@@ -103,10 +94,6 @@ namespace GameOfLife
                                 break;
                         }
                         NewMap[i, j].PrintAlive();
-                    }
-                    else
-                    {
-                        Console.Write('*');
                     }
                 }
                 Console.WriteLine();
