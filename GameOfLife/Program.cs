@@ -9,39 +9,14 @@ namespace GameOfLife
     class Program
     {
         static void Main(string[] args)
-        {
-            StartUp();
-            Console.Read();
-        }
-
-        public static void StartUp()
-        {
+        {           
             Cell[,] MapOne = Map.CreateMap();
             Cell[,] MapTwo = GetLiveCells(MapOne);
             InfinityLife(MapTwo);
+            Console.Read();
         }
 
-        // Runs each generation. 
-        public static void InfinityLife(Cell[,] Life)
-        {
-            Cell[,] cells = Life;            
-            bool NextCycle = true;
-
-            while (NextCycle)
-            {                
-                Cell[,] cells2 = Map.UpdateMap(cells);
-                string input = Console.ReadLine();
-                Console.CancelKeyPress += new ConsoleCancelEventHandler(UserClose);
-
-                if (input.ToLower() == "x")
-                {
-                    NextCycle = false;
-                }
-                cells = cells2;
-            }
-        }
-
-        // Takes in living cells from User. 
+        // Takes in living cells from User. Poor UI but it works. 
         public static Cell[,] GetLiveCells(Cell[,] Map)
         {
             bool KeepGoing = true;
@@ -71,6 +46,26 @@ namespace GameOfLife
             return MapOne;
         }
 
+        // Runs each generation and applies logic from the UpdateMap() method in Map.
+        public static void InfinityLife(Cell[,] Life)
+        {
+            Cell[,] cells = Life;            
+            bool NextCycle = true;
+
+            while (NextCycle)
+            {                
+                Cell[,] cells2 = Map.UpdateMap(cells);
+                string input = Console.ReadLine();
+                Console.CancelKeyPress += new ConsoleCancelEventHandler(UserClose);
+
+                if (input.ToLower() == "x")
+                {
+                    NextCycle = false;
+                }
+                cells = cells2;
+            }
+        }
+        
         // Must be placed in a Try/Catch
         private static int[] ReadUserInput(string input)
         {
